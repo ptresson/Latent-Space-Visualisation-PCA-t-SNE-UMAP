@@ -16,13 +16,18 @@ m = mesh.Mesh.from_file(obj_path)
 # print(m.vectors)
 
 firsts = m.vectors[:,0,:]
-# print(firsts.shape)
+seconds = m.vectors[:,1,:]
+thirds = m.vectors[:,2,:]
 
-subset_size = 5_000
-random_indices = np.random.choice(firsts.shape[0], subset_size, replace=False)
-subset = firsts[random_indices]
+arr = np.concatenate((firsts, seconds, thirds), axis=0)
+print(arr.shape)
+
+subset_size = 40_000
+random_indices = np.random.choice(arr.shape[0], subset_size, replace=False)
+subset = arr[random_indices]
 print(subset.shape)
 print(subset)
+np.save('./data/mammoth_numpy_40k.npy', subset)
 
 from mpl_toolkits import mplot3d
 from matplotlib import pyplot
