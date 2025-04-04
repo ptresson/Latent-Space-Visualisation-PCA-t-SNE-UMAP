@@ -4,7 +4,7 @@ import numpy as np
 import umap
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-
+from sklearn.decomposition import PCA
      
 
 mammoth = pd.read_csv('mammoth_a.csv')
@@ -17,6 +17,18 @@ mammoth = mammoth2
 
 colors = np.sqrt(mammoth['y']**2 + mammoth['z']**2)  # Color points based on their position
 print(colors.shape)
+
+pca = PCA(n_components=2)
+
+embeddings = pca.fit_transform(mammoth)
+individual_fig, individual_ax = plt.subplots(figsize=(10, 10), facecolor='w')
+individual_ax.axis('off')
+individual_ax.scatter(embeddings[:, 0], embeddings[:, 1], s=1, c=colors, cmap='gnuplot')
+individual_fig.savefig(f'pca.png')
+plt.close(individual_fig)  # Close the individual figure to free memory
+sys.exit(1)
+
+
 
 
 ### 3D view
